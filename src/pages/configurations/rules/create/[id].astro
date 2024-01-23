@@ -1,0 +1,29 @@
+---
+//import transitions effect
+import { ViewTransitions } from "astro:transitions";
+
+//import layout
+import MainLayout from "../../../../layouts/MainLayout.astro";
+
+//import from create post
+import RulesCreate from "../../../../components/RulesCreate.jsx";
+
+const { id } = Astro.params;
+
+console.log(id)
+---
+
+<MainLayout>
+    <ViewTransitions />
+    <div class="container mb-5" style="margin-top: 5rem;">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center">Create Rules</h1>
+                <RulesCreate
+                    client:load
+                    configurationId={id}
+                />
+            </div>
+        </div>
+    </div>
+</MainLayout>

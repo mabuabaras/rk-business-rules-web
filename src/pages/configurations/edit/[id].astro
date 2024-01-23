@@ -1,0 +1,38 @@
+---
+//import transitions effect
+import { ViewTransitions } from "astro:transitions";
+
+//import layout
+import MainLayout from "../../../layouts/MainLayout.astro";
+
+//import form edit post
+import ConfigurationEdit from "../../../components/ConfigurationEdit.jsx";
+
+//import service api
+import api from "../../../services/api";
+
+//get ID
+const { id } = Astro.params;
+
+const configuration = await api.get(`/configurations/${id}`);
+
+---
+
+<MainLayout>
+    <ViewTransitions />
+    <div class="container mb-5" style="margin-top: 5rem;">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center">Edit Configuration {id}</h1>
+                <ConfigurationEdit
+                        client:load
+                        configurationId={configuration.data.id}
+                        configurationDb_type={configuration.data.db_type}
+                        configurationDb_name={configuration.data.db_name}
+                        configurationConnection_string={configuration.data.connection_string}
+                        configurationTable_name={configuration.data.table_name}
+                />
+            </div>
+        </div>
+    </div>
+</MainLayout>

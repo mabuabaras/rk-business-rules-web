@@ -1,0 +1,45 @@
+---
+//import transitions effect
+import { ViewTransitions } from "astro:transitions";
+
+//import layout
+import MainLayout from "../../../../layouts/MainLayout.astro";
+
+//import form edit post
+import ConfigurationEdit from "../../../../components/RulesEdit.jsx";
+
+//import service api
+import api from "../../../../services/api";
+
+//get ID
+const { id } = Astro.params;
+const rule_id = parseInt(id.split("-")[1]); // Asegurarse de que es un número
+const configuration_id = id.split("-")[0];
+
+const rules = await api.get(`/rules/${configuration_id}`);
+
+// Filtrar para encontrar la regla específica
+const rule = rules.data.find(rule => rule.id === rule_id);
+
+---
+
+<MainLayout>
+    <ViewTransitions />
+    <div class="container mb-5" style="margin-top: 5rem;">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center">Edit Configuration {rule_id}</h1>
+                <h1 class="text-center">Edit Configuration {configuration_id}</h1>
+                <ConfigurationEdit
+                        client:load
+                        ruleId={rule.id}
+                        ruleConfiguration_id={rule.configuration_id}
+                        ruleRule_type={rule.rule_type}
+                        ruleField_name={rule.field_name}
+                        ruleField_value={rule.field_value}
+                        rulePosition={rule.position}
+                />
+            </div>
+        </div>
+    </div>
+</MainLayout>
